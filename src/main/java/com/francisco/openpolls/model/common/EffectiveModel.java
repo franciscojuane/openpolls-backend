@@ -21,7 +21,7 @@ public class EffectiveModel extends AbstractModel {
 	public LocalDateTime expirationDate;
 	
 	public boolean isEffective() {
-		return this.isEffective(null);
+		return this.isEffective(LocalDateTime.now());
 	}
 	
 	 public boolean isEffective(LocalDateTime date) {

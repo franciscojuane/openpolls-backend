@@ -2,6 +2,7 @@ package com.francisco.openpolls.configuration;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,22 +20,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private final AuthenticationProvider authenticationProvider;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    public SecurityConfiguration(
-        JwtAuthenticationFilter jwtAuthenticationFilter,
-        AuthenticationProvider authenticationProvider
-    ) {
-        this.authenticationProvider = authenticationProvider;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+	@Autowired
+    private AuthenticationProvider authenticationProvider;
+	
+	@Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    	 http.csrf(csrf -> csrf.disable()) 
+    	
+    	http.csrf(csrf -> csrf.disable()) 
          .authorizeHttpRequests(auth -> auth
-             .requestMatchers("/auth/**").permitAll() 
+             .requestMatchers("/auth/login").permitAll() 
              .requestMatchers("/h2-console/**").permitAll()
              .anyRequest().authenticated()           
          )

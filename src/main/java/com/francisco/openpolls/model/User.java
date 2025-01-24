@@ -39,7 +39,7 @@ public class User extends EffectiveModel implements UserDetails {
 	@Column(nullable = false)
 	private String password;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@Override

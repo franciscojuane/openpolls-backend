@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -26,18 +29,15 @@ public class JwtService {
 	private long jwtExpiration;
 
 	public String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
+		SecretKey secretKey = getSecretKey();
+		
 		return Jwts.builder().claims(extraClaims).subject(userDetails.getUsername())
 				.issuedAt(new Date(System.currentTimeMillis()))
-				.expiration(new Date(System.currentTimeMillis() + expiration))
+				.expiration(new Date(System.currentTimeMillis() + expiration*1000))
 				
-				.signWith(getSecretKey()).compact();
+				.signWith(secretKey).compact();
 	}
 
-	public SecretKey getSecretKey() {
-		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-		return Keys.hmacShaKeyFor(keyBytes);
-	}
-	
 	
 
 	public String generateToken(UserDetails userDetails) {
@@ -48,21 +48,44 @@ public class JwtService {
 		return buildToken(extraClaims, userDetails, jwtExpiration);
 	}
 
-	public boolean isTokenValid(String token, UserDetails userDetails) {
-		final String username = extractUsername(token);
-		return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+	
+	public boolean isTokenValid(String token) {
+		SecretKey secretKey = getSecretKey();
+		try {
+			Jwt<JwsHeader, Claims> jwt = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
+			Date expirationDate = jwt.getPayload().getExpiration();
+			return expirationDate.after(new Date()); 
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	public String extractUsername(String token) {
-		return extractClaim(token, Claims::getSubject);
+
+
+	private SecretKey getSecretKey() {
+		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+		SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
+		return secretKey;
 	}
+	
+	// quitar
+	/*public boolean isTokenValid(String token, UserDetails userDetails) {
+		final String username = extractUsername(token);
+		return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+	}*/
+
+	/*public String extractUsername(String token) {
+		return extractClaim(token, claim -> claim.getSubject());
+	}*/
 
 	private boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
 	}
 
 	private Date extractExpiration(String token) {
-		return extractClaim(token, Claims::getExpiration);
+		return extractClaim(token, claim -> claim.getExpiration());
 	}
 	
 	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

@@ -16,9 +16,9 @@ import com.francisco.openpolls.repository.UserRepository;
 
 @Configuration
 public class AuthConfiguration {
-
+	
 	@Autowired
-	UserRepository userRepository;
+	UserDetailsService userDetailsService;
 
 	@Bean
 	PasswordEncoder passwordEncoder() {
@@ -26,21 +26,10 @@ public class AuthConfiguration {
 	}
 
 	@Bean
-	UserDetailsService userDetailsService() {
-		return username -> userRepository.findByEmail(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
-	}
-
-	@Bean
-	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-		return config.getAuthenticationManager();
-	}
-
-	@Bean
 	AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-		authProvider.setUserDetailsService(userDetailsService());
+		authProvider.setUserDetailsService(userDetailsService);
 		authProvider.setPasswordEncoder(passwordEncoder());
 
 		return authProvider;
