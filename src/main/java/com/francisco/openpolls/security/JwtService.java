@@ -57,7 +57,6 @@ public class JwtService {
 			return expirationDate.after(new Date()); 
 			
 		}catch(Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}

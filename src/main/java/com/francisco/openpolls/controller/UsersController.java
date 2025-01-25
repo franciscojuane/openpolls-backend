@@ -1,23 +1,76 @@
 package com.francisco.openpolls.controller;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.francisco.openpolls.dto.UserCreateRequestDTO;
+import com.francisco.openpolls.dto.UserResponseDTO;
+import com.francisco.openpolls.dto.UserUpdateRequestDTO;
+import com.francisco.openpolls.model.User;
 import com.francisco.openpolls.repository.UserRepository;
+import com.francisco.openpolls.service.UserService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/users")
 public class UsersController {
 
-	
 	@Autowired
 	UserRepository userRepository;
-	
-	@GetMapping("/test")
-	public ResponseEntity<?> getUser(){
-		return ResponseEntity.ok(userRepository.findByEmail("admin@admin.com"));
+
+	@Autowired
+	UserService userService;
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getUser(@PathVariable Long id) {
+		Optional<User> user = userService.findById(id);
+		if (user.isPresent()) {
+			UserResponseDTO userResponseDTO = UserResponseDTO.fromUser(user.get());
+			return ResponseEntity.ok(userResponseDTO);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
+
+	@GetMapping("/")
+	public ResponseEntity<?> getUsers(Pageable pageable) {
+		Page<User> page = userService.findAll(pageable);
+		List<UserResponseDTO> userResponseDTOs = page.toList().stream().map(user -> UserResponseDTO.fromUser(user))
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(userResponseDTOs);
+	}
+
+	@PostMapping("/")
+	public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateRequestDTO userCreateRequestDTO) {
+		User user = userService.createUser(userCreateRequestDTO);
+		return ResponseEntity.ok(UserResponseDTO.fromUser(user));
+	}
+
+	@PatchMapping("/{id}")
+	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequestDTO userUpdateRequestDTO, @PathVariable Long id) {
+		User user = userService.updateUser(userUpdateRequestDTO, id);
+		return ResponseEntity.ok(UserResponseDTO.fromUser(user));
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
+		userService.deleteUserById(id);
+		return ResponseEntity.ok().build();
+	}
+
 }
