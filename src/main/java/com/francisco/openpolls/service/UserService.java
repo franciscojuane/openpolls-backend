@@ -26,7 +26,7 @@ public class UserService {
 	UserRepository userRepository;
 
 	
-	public User createUser(@Valid UserCreateRequestDTO userCreateRequestDTO) {
+	public User create(@Valid UserCreateRequestDTO userCreateRequestDTO) {
 
 		String firstName = userCreateRequestDTO.getFirstName();
 		String lastName = userCreateRequestDTO.getLastName();
@@ -49,7 +49,7 @@ public class UserService {
 	}
 
 
-	public User updateUser(UserUpdateRequestDTO userUpdateRequestDTO, Long id) {
+	public User update(UserUpdateRequestDTO userUpdateRequestDTO, Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 		
 		if (userUpdateRequestDTO.isUpdateFirstName()) {
@@ -91,6 +91,12 @@ public class UserService {
 	
 	public Optional<User> findById(Long id) {
 		Optional<User> optionalUser = userRepository.findById(id);
+		return optionalUser;
+	}
+
+
+	public Optional<User> findByEmail(String email) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
 		return optionalUser;
 	}
 

@@ -57,13 +57,13 @@ public class UsersController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateRequestDTO userCreateRequestDTO) {
-		User user = userService.createUser(userCreateRequestDTO);
+		User user = userService.create(userCreateRequestDTO);
 		return ResponseEntity.ok(UserResponseDTO.fromUser(user));
 	}
 
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequestDTO userUpdateRequestDTO, @PathVariable Long id) {
-		User user = userService.updateUser(userUpdateRequestDTO, id);
+		User user = userService.update(userUpdateRequestDTO, id);
 		return ResponseEntity.ok(UserResponseDTO.fromUser(user));
 	}
 	

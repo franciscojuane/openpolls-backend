@@ -19,8 +19,10 @@ public class DataLoader implements InitializingBean {
 
 		UserCreateRequestDTO userCreateRequestDTO = UserCreateRequestDTO.builder().firstName("Francisco")
 				.lastName("Juane").email("admin@admin.com").password("admin").build();
-		User user1 = userService.createUser(userCreateRequestDTO);
+		User user1 = userService.create(userCreateRequestDTO);
 
+		
+		
 	}
 
 }

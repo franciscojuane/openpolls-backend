@@ -12,14 +12,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @MappedSuperclass
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public class AbstractModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,6 +37,7 @@ public class AbstractModel implements Serializable {
 	public LocalDateTime updateTime;
 	
 	@Version
+	@Default
 	public long version = 1;
 	
 
