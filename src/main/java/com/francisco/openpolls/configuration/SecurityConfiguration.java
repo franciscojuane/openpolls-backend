@@ -21,6 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfiguration {
 	@Autowired
     private AuthenticationProvider authenticationProvider;

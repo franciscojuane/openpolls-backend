@@ -90,6 +90,14 @@
 		    <version>0.12.6</version>
 		    <scope>runtime</scope>
 		</dependency>
+		
+		<!-- Data Faker -->
+		<dependency>
+		    <groupId>com.github.javafaker</groupId>
+		    <artifactId>javafaker</artifactId>
+		    <version>1.0.2</version>
+		</dependency>
+
 
 
 	</dependencies>

@@ -24,6 +24,6 @@ public class QuestionOption extends EffectiveModel{
 	
 	@ManyToOne
 	@JoinColumn(name = "MULTIPLE_CHOICE_QUESTION_ID")
-	private Question multipleChoiceQuestion;
+	private Question question;
 
 }

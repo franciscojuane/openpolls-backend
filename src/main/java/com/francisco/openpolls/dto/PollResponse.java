@@ -15,8 +15,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = Constants.TABLE_PREFIX + "POLL")
-@Entity
 public class PollResponse extends EffectiveModel{
 
 	@NotNull
@@ -25,5 +23,7 @@ public class PollResponse extends EffectiveModel{
 	private String description;
 	
 	private Long createdByUserId;
+	
+	private Long amountOfQuestions;
 
 }

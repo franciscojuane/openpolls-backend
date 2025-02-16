@@ -15,8 +15,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = Constants.TABLE_PREFIX + "POLL")
-@Entity
 public class PollUpdateRequestDTO extends EffectiveModel{
 
 	@NotNull

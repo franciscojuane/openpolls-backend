@@ -23,18 +23,19 @@ public class SelectedUserArgumentResolver implements HandlerMethodArgumentResolv
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		// TODO Auto-generated method stub
-		return parameter.getParameterAnnotation(SelectedUser.class) != null
-				&& parameter.getParameter().getClass().equals(User.class);
+		boolean hasParameter = parameter.hasParameterAnnotation(SelectedUser.class);
+		boolean isParameterType = parameter.getParameterType().equals(User.class);
+		return hasParameter && isParameterType;
 	}
 
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		// TODO Auto-generated method stub
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-		Optional<User> optionalUser = userService.findByEmail(authentication.getPrincipal().toString());
+		User user = (User) authentication.getPrincipal();
+		
+		Optional<User> optionalUser = userService.findByEmail(user.getEmail());
 
 		if (optionalUser.isPresent()) {
 			return optionalUser.get();
