@@ -1,8 +1,7 @@
-package com.francisco.openpolls.model.questionTypes.options;
+package com.francisco.openpolls.model;
 
 import com.francisco.openpolls.model.common.Constants;
 import com.francisco.openpolls.model.common.EffectiveModel;
-import com.francisco.openpolls.model.questionTypes.MultipleChoiceQuestion;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -19,12 +18,12 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Entity
 @Table(name = Constants.TABLE_PREFIX + "MULTIPLE_CHOICE_QUESTION_OPTION")
-public class MultipleChoiceQuestionOption extends EffectiveModel{
+public class QuestionOption extends EffectiveModel{
 	
 	private String text;
 	
 	@ManyToOne
 	@JoinColumn(name = "MULTIPLE_CHOICE_QUESTION_ID")
-	private MultipleChoiceQuestion multipleChoiceQuestion;
+	private Question multipleChoiceQuestion;
 
 }
