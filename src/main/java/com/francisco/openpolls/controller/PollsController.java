@@ -65,6 +65,8 @@ public class PollsController {
 		pollResponse.setName(poll.getName());
 		pollResponse.setDescription(poll.getDescription());
 		pollResponse.setAmountOfQuestions(questionService.amountOfQuestionsForPoll(poll));
+		pollResponse.setEffectiveDate(poll.getEffectiveDate());
+		pollResponse.setExpirationDate(poll.getExpirationDate());
 		return pollResponse;
 	}
 
