@@ -43,7 +43,6 @@ public class QuestionService {
         existingQuestion.setText(updatedQuestion.getText());
         existingQuestion.setSubText(updatedQuestion.getSubText());
         existingQuestion.setQuestionType(updatedQuestion.getQuestionType());
-        existingQuestion.setPoll(updatedQuestion.getPoll());
         existingQuestion.setMinAmountOfSelections(updatedQuestion.getMinAmountOfSelections());
         existingQuestion.setMaxAmountOfSelections(updatedQuestion.getMaxAmountOfSelections());
         existingQuestion.setOptions(updatedQuestion.getOptions());

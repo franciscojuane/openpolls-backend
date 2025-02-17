@@ -6,6 +6,7 @@ import com.francisco.openpolls.model.common.Constants;
 import com.francisco.openpolls.model.common.EffectiveModel;
 import com.francisco.openpolls.model.enums.QuestionType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Inheritance;
@@ -54,7 +55,7 @@ public class Question extends EffectiveModel {
 	/*
 	 * For Multiple Choice Questions
 	 */
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="question")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="question", cascade = CascadeType.ALL)
 	private List<QuestionOption> options;
 	
 	

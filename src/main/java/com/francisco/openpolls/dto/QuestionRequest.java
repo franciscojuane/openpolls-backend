@@ -3,6 +3,7 @@ package com.francisco.openpolls.dto;
 import java.util.List;
 
 import com.francisco.openpolls.model.Poll;
+import com.francisco.openpolls.model.common.AbstractModel;
 import com.francisco.openpolls.model.enums.QuestionType;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionRequest {
+public class QuestionRequest extends AbstractModel {
 
 	private int rank;
 
