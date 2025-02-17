@@ -15,6 +15,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long>{
 	
 	List<Poll> findByPoll(Poll poll);
 
-	Page<Question> findByPollId(Long pollId, Pageable pageable);
+	List<Question> findByPollId(Long pollId);
 	
 }

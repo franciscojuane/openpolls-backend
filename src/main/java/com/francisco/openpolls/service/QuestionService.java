@@ -1,5 +1,7 @@
 package com.francisco.openpolls.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,7 +69,7 @@ public class QuestionService {
     	return questionRepository.countByPoll(poll);
     }
 
-	public Page<Question> findByPollId(Long pollId, Pageable pageable) {
-		return questionRepository.findByPollId(pollId, pageable);
+	public List<Question> findByPollId(Long pollId) {
+		return questionRepository.findByPollId(pollId);
 	}
 }
