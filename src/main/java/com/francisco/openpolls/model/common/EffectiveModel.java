@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
-@SuperBuilder
 public class EffectiveModel extends AbstractModel {
 
 	private static final long serialVersionUID = 1L;

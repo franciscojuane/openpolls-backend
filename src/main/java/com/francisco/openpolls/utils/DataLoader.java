@@ -41,10 +41,10 @@ public class DataLoader implements InitializingBean {
 		User user1 = userService.create(userCreateRequestDTO);
 		
 		Poll poll = Poll.builder().name("Poll 1").description("Poll 1 Description").
-				effectiveDate(LocalDateTime.now().minusDays(1))
-				.expirationDate(LocalDateTime.now().plusDays(1)).
 				createdByUser(user1).build();
-		
+
+		poll.setEffectiveDate(LocalDateTime.now().minusDays(1));
+		poll.setExpirationDate(LocalDateTime.now().plusDays(1));
 		poll = pollService.save(poll);
 		
 		Question question1 = Question.builder()

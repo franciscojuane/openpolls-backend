@@ -66,4 +66,8 @@ public class QuestionService {
     public Long amountOfQuestionsForPoll(Poll poll) {
     	return questionRepository.countByPoll(poll);
     }
+
+	public Page<Question> findByPollId(Long pollId, Pageable pageable) {
+		return questionRepository.findByPollId(pollId, pageable);
+	}
 }

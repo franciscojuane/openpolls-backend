@@ -53,8 +53,11 @@ public class PollsController {
 	@PostMapping("")
 	public ResponseEntity<?> createPoll(@SelectedUser User user, @RequestBody PollCreateRequest pollCreateRequest) {
 		Poll poll = Poll.builder().name(pollCreateRequest.getName()).description(pollCreateRequest.getDescription())
-				.createdByUser(user).effectiveDate(pollCreateRequest.effectiveDate)
-				.expirationDate(pollCreateRequest.expirationDate).build();
+				.createdByUser(user)
+				.build();
+		poll.setEffectiveDate(pollCreateRequest.effectiveDate);
+		poll.setExpirationDate(pollCreateRequest.expirationDate);
+		
 		poll = pollService.save(poll);
 		return ResponseEntity.ok(pollToPollResponse(poll));
 	}
