@@ -25,7 +25,7 @@ public class QuestionResponse extends AbstractModel {
 
 	private QuestionType questionType;
 
-	private Poll poll;
+	private Long pollId;
 
 	/*
 	 * For Multiple Choice Questions

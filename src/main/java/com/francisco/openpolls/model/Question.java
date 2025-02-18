@@ -55,7 +55,7 @@ public class Question extends EffectiveModel {
 	/*
 	 * For Multiple Choice Questions
 	 */
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="question", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="question", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<QuestionOption> options;
 	
 	

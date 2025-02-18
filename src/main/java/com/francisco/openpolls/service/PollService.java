@@ -17,6 +17,9 @@ public class PollService {
 	@Autowired
 	PollRepository pollRepository;
 	
+	@Autowired
+	QuestionService questionService;
+	
 	public Page<Poll> findAll(Pageable pageable){
 		return pollRepository.findAll(pageable);
 	}
@@ -45,11 +48,12 @@ public class PollService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
-        if (!pollRepository.existsById(id)) {
-            throw new EntityNotFoundException("Poll not found for id " + id);
+    public void deleteById(Long pollId) {
+        if (!pollRepository.existsById(pollId)) {
+            throw new EntityNotFoundException("Poll not found for id " + pollId);
         }
-        pollRepository.deleteById(id);
+        questionService.deleteByPollId(pollId);
+        pollRepository.deleteById(pollId);
     }
 	
 }

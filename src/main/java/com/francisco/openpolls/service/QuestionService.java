@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.francisco.openpolls.model.Poll;
 import com.francisco.openpolls.model.Question;
+import com.francisco.openpolls.model.QuestionOption;
 import com.francisco.openpolls.repository.QuestionRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +20,9 @@ public class QuestionService {
 
 	@Autowired
     private QuestionRepository questionRepository;
+	
+	@Autowired
+	private SubmissionService submissionService;
 
     public Page<Question> findAll(Pageable pageable) {
         return questionRepository.findAll(pageable);
@@ -45,7 +49,12 @@ public class QuestionService {
         existingQuestion.setQuestionType(updatedQuestion.getQuestionType());
         existingQuestion.setMinAmountOfSelections(updatedQuestion.getMinAmountOfSelections());
         existingQuestion.setMaxAmountOfSelections(updatedQuestion.getMaxAmountOfSelections());
-        existingQuestion.setOptions(updatedQuestion.getOptions());
+        List<QuestionOption> options = existingQuestion.getOptions();
+        options.clear();
+        for (QuestionOption option : updatedQuestion.getOptions()) {
+        	options.add(option);
+        }
+        existingQuestion.setOptions(options);
         existingQuestion.setMinValue(updatedQuestion.getMinValue());
         existingQuestion.setMaxValue(updatedQuestion.getMaxValue());
         existingQuestion.setScale(updatedQuestion.getScale());
@@ -56,11 +65,12 @@ public class QuestionService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
-        if (!questionRepository.existsById(id)) {
-            throw new EntityNotFoundException("Question not found for id " + id);
+    public void deleteById(Long questionId) {
+        if (!questionRepository.existsById(questionId)) {
+            throw new EntityNotFoundException("Question not found for id " + questionId);
         }
-        questionRepository.deleteById(id);
+    	submissionService.deleteSubmissionsByQuestionId(questionId);
+        questionRepository.deleteById(questionId);
     }
     
     
@@ -70,5 +80,12 @@ public class QuestionService {
 
 	public List<Question> findByPollId(Long pollId) {
 		return questionRepository.findByPollId(pollId);
+	}
+
+	@Transactional
+	public void deleteByPollId(Long pollId) {
+		submissionService.deleteSubmissionsByPollId(pollId);
+		questionRepository.deleteByPollId(pollId);
+		
 	}
 }

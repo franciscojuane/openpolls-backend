@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.francisco.openpolls.model.common.Constants;
 import com.francisco.openpolls.model.common.EffectiveModel;
 
@@ -37,6 +38,7 @@ public class User extends EffectiveModel implements UserDetails {
 	private String lastName;
 	
 	@Column(nullable = false)
+	@JsonIgnore
 	private String password;
 	
 	@Column(nullable = false, unique = true)
