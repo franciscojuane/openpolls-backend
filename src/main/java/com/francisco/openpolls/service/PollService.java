@@ -55,5 +55,9 @@ public class PollService {
         questionService.deleteByPollId(pollId);
         pollRepository.deleteById(pollId);
     }
+    
+    public Poll getReferenceById(Long pollId) {
+    	return pollRepository.getReferenceById(pollId);
+    }
 	
 }

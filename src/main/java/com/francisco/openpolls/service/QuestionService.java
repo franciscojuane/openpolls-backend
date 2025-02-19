@@ -21,8 +21,15 @@ public class QuestionService {
 	@Autowired
     private QuestionRepository questionRepository;
 	
-	@Autowired
 	private SubmissionService submissionService;
+	
+	private SubmissionAnswerService submissionAnswerService;
+	
+	@Autowired
+	public void setSubmissionService(SubmissionService submissionService,  SubmissionAnswerService submissionAnswerService) {
+		this.submissionService = submissionService;
+		this.submissionAnswerService = submissionAnswerService;
+	}
 
     public Page<Question> findAll(Pageable pageable) {
         return questionRepository.findAll(pageable);
@@ -69,7 +76,7 @@ public class QuestionService {
         if (!questionRepository.existsById(questionId)) {
             throw new EntityNotFoundException("Question not found for id " + questionId);
         }
-    	submissionService.deleteSubmissionsByQuestionId(questionId);
+    	submissionAnswerService.deleteByQuestionId(questionId);
         questionRepository.deleteById(questionId);
     }
     
@@ -88,4 +95,10 @@ public class QuestionService {
 		questionRepository.deleteByPollId(pollId);
 		
 	}
+	
+	public Question getReferenceById(Long questionId) {
+		return questionRepository.getReferenceById(questionId);
+	}
+	
+	
 }
