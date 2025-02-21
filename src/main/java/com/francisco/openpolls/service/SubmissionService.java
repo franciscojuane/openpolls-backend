@@ -43,7 +43,7 @@ public class SubmissionService {
 		submissionRequestValidationService.validate(submissionRequest);
 		Submission submission = new Submission();
 		submission.setIpAddress(submissionRequest.getIpAddress());
-		submission.setEmailAddress(submissionRequest.getEmail());
+		submission.setEmailAddress(submissionRequest.getEmailAddress());
 		submission.setPoll(pollService.getReferenceById(submissionRequest.getPollId()));
 		submission = submissionRepository.save(submission);
 

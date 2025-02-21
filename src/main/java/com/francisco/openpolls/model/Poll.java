@@ -1,5 +1,7 @@
 package com.francisco.openpolls.model;
 
+import java.util.UUID;
+
 import com.francisco.openpolls.model.common.Constants;
 import com.francisco.openpolls.model.common.EffectiveModel;
 
@@ -10,6 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -31,5 +34,7 @@ public class Poll extends EffectiveModel{
 	@JoinColumn(name = "USER_ID")
 	private User createdByUser;
 	
+	@Default
+	private String pollKey = UUID.randomUUID().toString();
 	
 }

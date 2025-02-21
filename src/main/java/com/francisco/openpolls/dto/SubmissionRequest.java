@@ -19,5 +19,5 @@ public class SubmissionRequest {
 	
 	String ipAddress;
 	
-	String email;
+	String emailAddress;
 }
