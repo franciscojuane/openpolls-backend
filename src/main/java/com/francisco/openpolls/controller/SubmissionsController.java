@@ -1,10 +1,9 @@
 package com.francisco.openpolls.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,14 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.francisco.openpolls.dto.SubmissionAnswerResponse;
 import com.francisco.openpolls.dto.SubmissionRequest;
-import com.francisco.openpolls.dto.SubmissionResponse;
+import com.francisco.openpolls.dto.SubmissionTableResponse;
 import com.francisco.openpolls.model.Submission;
 import com.francisco.openpolls.model.SubmissionAnswer;
+import com.francisco.openpolls.repository.aggregated.AnswerCount;
+import com.francisco.openpolls.service.SubmissionAnswerService;
 import com.francisco.openpolls.service.SubmissionService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Data;
 
 @Controller
 @RequestMapping("/polls/{pollId}/submissions")
@@ -29,6 +30,9 @@ public class SubmissionsController {
 
 	@Autowired
 	SubmissionService submissionService;
+	
+	@Autowired
+	SubmissionAnswerService submissionAnswerService;
 	
 	@PostMapping("")
 	public ResponseEntity<?> submit(@RequestBody SubmissionRequest submissionRequest, @PathVariable Long pollId, HttpServletRequest httpServletRequest){
@@ -49,31 +53,32 @@ public class SubmissionsController {
 	
 	@GetMapping("/table")
 	public ResponseEntity<?> generateTable(@PathVariable Long pollId, Pageable pageable){
-		Map<Submission, List<SubmissionAnswer>> submissionsTable = submissionService.generateSubmissionsMapForPollId(pollId, pageable);
-		Map<SubmissionResponse, List<SubmissionAnswerResponse>> submissionTableResponse = new HashMap<>();
-		submissionsTable.forEach((submission, submissionAnswers) -> {
-			submissionTableResponse.put(toSubmissionResponse(submission), toSubmissionAnswerResponseList(submissionAnswers));	
-		});
-		return ResponseEntity.ok(submissionTableResponse);
-	}
-	
-	private SubmissionResponse toSubmissionResponse(Submission submission) {
-		SubmissionResponse submissionResponse = SubmissionResponse.builder().emailAddress(submission.getEmailAddress()).ipAddress(submission.getIpAddress()).pollId(submission.getPoll().getId()).build();
-		submissionResponse.setId(submission.getId());
-		return submissionResponse;
+		SubmissionTableResponse submissionsTable = generateSubmissionsMapForPollId(pollId, pageable);
+		return ResponseEntity.ok(submissionsTable);
 	}
 	
 	
-	private List<SubmissionAnswerResponse> toSubmissionAnswerResponseList(List<SubmissionAnswer> list) {
-		List<SubmissionAnswerResponse> submissionAnswerResponses = list.stream().map(elem -> {
-			SubmissionAnswerResponse submissionAnswerResponse = new SubmissionAnswerResponse();
-			submissionAnswerResponse.setQuestionId(elem.getQuestion().getId());
-			submissionAnswerResponse.setAnswer(elem.getAnswer());
-			return submissionAnswerResponse;
-		}).toList();
+	public SubmissionTableResponse generateSubmissionsMapForPollId(Long pollId, Pageable pageable) {
+		SubmissionTableResponse submissionTableResponse = new SubmissionTableResponse();
 		
-		return submissionAnswerResponses;
+		Page<Submission> submissions = submissionService.findByPollIdOrderById(pollId, pageable);
+		for (Submission submission: submissions) {
+			List<SubmissionAnswer> submissionAnswers = submissionAnswerService.findBySubmissionIdOrderById(submission.getId());
+			submissionTableResponse.addRow(submission, submissionAnswers);
+		}
+		return submissionTableResponse;
 	}
 	
+	@GetMapping("/answerCountByQuestion/{questionId}")
+	public ResponseEntity<?> answerCountByQuestion(@PathVariable Long pollId, @PathVariable Long questionId, Pageable pageable){
+		Page<AnswerCount> answerCount = submissionService.generateAnswerCountByPollIdAndQuestionId(pollId, questionId, pageable);
+		return ResponseEntity.ok(answerCount);
+	}
+	
+	@GetMapping("/answersByQuestion/{questionId}")
+	public ResponseEntity<?> answerByQuestion(@PathVariable Long questionId, @PathVariable Long pollId, Pageable pageable){
+		Page<String> answers = submissionService.generateAnswersByPollIdAndQuestionId(pollId, questionId, pageable);
+		return ResponseEntity.ok(answers);
+	}
 	
 }
