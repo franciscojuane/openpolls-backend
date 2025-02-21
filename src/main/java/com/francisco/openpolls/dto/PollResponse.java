@@ -22,5 +22,7 @@ public class PollResponse extends EffectiveModel{
 	private Long createdByUserId;
 	
 	private Long amountOfQuestions;
+	
+	private String pollKey;
 
 }

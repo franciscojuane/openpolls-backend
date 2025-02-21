@@ -7,4 +7,5 @@ import com.francisco.openpolls.model.Poll;
 public interface PollRepository extends JpaRepository<Poll, Long> {
 
 	Poll findByPollKey(String pollKey);
+
 }

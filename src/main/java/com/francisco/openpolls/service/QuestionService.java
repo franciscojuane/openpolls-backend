@@ -89,6 +89,11 @@ public class QuestionService {
 		return questionRepository.findByPollId(pollId);
 	}
 
+
+	public List<Question> findByPollKey(String pollKey) {
+		return questionRepository.findByPoll_PollKey(pollKey);
+	}
+	
 	@Transactional
 	public void deleteByPollId(Long pollId) {
 		submissionService.deleteSubmissionsByPollId(pollId);

@@ -59,5 +59,10 @@ public class PollService {
     public Poll getReferenceById(Long pollId) {
     	return pollRepository.getReferenceById(pollId);
     }
+
+	public Poll findByPollKey(String pollKey) {
+		// TODO Auto-generated method stub
+		return pollRepository.findByPollKey(pollKey);
+	}
 	
 }
