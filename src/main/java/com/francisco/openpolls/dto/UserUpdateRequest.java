@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateRequestDTO {
+public class UserUpdateRequest {
 
 	private String firstName;
 	

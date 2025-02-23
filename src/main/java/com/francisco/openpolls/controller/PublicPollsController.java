@@ -12,6 +12,8 @@ import com.francisco.openpolls.model.Poll;
 import com.francisco.openpolls.service.PollService;
 import com.francisco.openpolls.service.QuestionService;
 
+import jakarta.validation.ValidationException;
+
 @Controller
 @RequestMapping("/public/polls")
 public class PublicPollsController {
@@ -26,6 +28,9 @@ public class PublicPollsController {
 	@GetMapping("/{pollKey}")
 	public ResponseEntity<?> getPublicPoll(@PathVariable String pollKey){
 		Poll poll = pollService.findByPollKey(pollKey);
+		if (poll==null ) {
+			throw new ValidationException("Poll not found with provided key.");
+		}
 		PollResponse response = pollToPollResponse(poll);
 		return ResponseEntity.ok(response);
 	}

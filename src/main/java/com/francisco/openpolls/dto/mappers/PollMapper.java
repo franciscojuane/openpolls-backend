@@ -24,6 +24,7 @@ public class PollMapper {
 		pollResponse.setEffectiveDate(poll.getEffectiveDate());
 		pollResponse.setExpirationDate(poll.getExpirationDate());
 		pollResponse.setId(poll.getId());
+		pollResponse.setSubmissionLimitCriteria(poll.getSubmissionLimitCriteria());
 		return pollResponse;
 	}
 	
@@ -36,7 +37,7 @@ public class PollMapper {
 	    poll.setId(pollResponse.getId());
 	    poll.setEffectiveDate(pollResponse.getEffectiveDate());
         poll.setExpirationDate(pollResponse.getExpirationDate());
-        
+        poll.setSubmissionLimitCriteria(pollResponse.getSubmissionLimitCriteria());
         return poll;
 	}
 }

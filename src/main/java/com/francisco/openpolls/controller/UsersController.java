@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.francisco.openpolls.dto.UserCreateRequestDTO;
-import com.francisco.openpolls.dto.UserResponseDTO;
-import com.francisco.openpolls.dto.UserUpdateRequestDTO;
+import com.francisco.openpolls.dto.UserCreateRequest;
+import com.francisco.openpolls.dto.UserResponse;
+import com.francisco.openpolls.dto.UserUpdateRequest;
 import com.francisco.openpolls.model.User;
 import com.francisco.openpolls.repository.UserRepository;
 import com.francisco.openpolls.service.UserService;
@@ -40,7 +40,7 @@ public class UsersController {
 	public ResponseEntity<?> getUser(@PathVariable Long id) {
 		Optional<User> user = userService.findById(id);
 		if (user.isPresent()) {
-			UserResponseDTO userResponseDTO = UserResponseDTO.fromUser(user.get());
+			UserResponse userResponseDTO = UserResponse.fromUser(user.get());
 			return ResponseEntity.ok(userResponseDTO);
 		} else {
 			return ResponseEntity.notFound().build();
@@ -50,21 +50,21 @@ public class UsersController {
 	@GetMapping("/")
 	public ResponseEntity<?> getUsers(Pageable pageable) {
 		Page<User> page = userService.findAll(pageable);
-		List<UserResponseDTO> userResponseDTOs = page.toList().stream().map(user -> UserResponseDTO.fromUser(user))
+		List<UserResponse> userResponseDTOs = page.toList().stream().map(user -> UserResponse.fromUser(user))
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(userResponseDTOs);
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateRequestDTO userCreateRequestDTO) {
+	public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateRequest userCreateRequestDTO) {
 		User user = userService.create(userCreateRequestDTO);
-		return ResponseEntity.ok(UserResponseDTO.fromUser(user));
+		return ResponseEntity.ok(UserResponse.fromUser(user));
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequestDTO userUpdateRequestDTO, @PathVariable Long id) {
+	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequestDTO, @PathVariable Long id) {
 		User user = userService.update(userUpdateRequestDTO, id);
-		return ResponseEntity.ok(UserResponseDTO.fromUser(user));
+		return ResponseEntity.ok(UserResponse.fromUser(user));
 	}
 	
 	@DeleteMapping("/{id}")

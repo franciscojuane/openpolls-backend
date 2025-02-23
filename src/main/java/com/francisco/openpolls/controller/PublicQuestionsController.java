@@ -24,7 +24,7 @@ public class PublicQuestionsController {
 	@Autowired
 	QuestionMapper questionMapper;
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public ResponseEntity<?> getQuestionsByPollKey(@PathVariable String pollKey) {
 		List<Question> questions = questionService.findByPollKey(pollKey);
 		List<QuestionResponse> questionResponse = questions.stream().map(elem -> questionMapper.questionToResponse(elem)).toList();

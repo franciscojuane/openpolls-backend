@@ -3,6 +3,7 @@ package com.francisco.openpolls.model;
 import com.francisco.openpolls.model.common.AbstractModel;
 import com.francisco.openpolls.model.common.Constants;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,6 +29,7 @@ public class SubmissionAnswer extends AbstractModel{
 	@JoinColumn(name="SUBMISSION_ID")
 	private Submission submission;
 	
+	@Column(length=1000)
 	private String answer;
 	
 }

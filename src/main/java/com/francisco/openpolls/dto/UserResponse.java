@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDTO {
+public class UserResponse {
 
 	private Long id;
 	
@@ -36,8 +36,8 @@ public class UserResponseDTO {
 
 
 
-public static UserResponseDTO fromUser(User user) {
-	return UserResponseDTO.builder()
+public static UserResponse fromUser(User user) {
+	return UserResponse.builder()
             .id(user.getId())
             .firstName(user.getFirstName())
             .lastName(user.getLastName())

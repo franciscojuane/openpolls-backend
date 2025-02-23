@@ -1,6 +1,7 @@
 package com.francisco.openpolls.dto;
 
 import com.francisco.openpolls.model.common.EffectiveModel;
+import com.francisco.openpolls.model.enums.SubmissionLimitCriteria;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,7 @@ public class PollResponse extends EffectiveModel{
 	private Long amountOfQuestions;
 	
 	private String pollKey;
+	
+	private SubmissionLimitCriteria submissionLimitCriteria;
 
 }

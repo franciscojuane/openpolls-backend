@@ -43,7 +43,8 @@ public class PollService {
         existingPoll.setDescription(updatedPoll.getDescription());
         existingPoll.setEffectiveDate(updatedPoll.getEffectiveDate());
         existingPoll.setExpirationDate(updatedPoll.getExpirationDate());
-
+        existingPoll.setSubmissionLimitCriteria(updatedPoll.getSubmissionLimitCriteria());
+        
         return pollRepository.save(existingPoll);
     }
 

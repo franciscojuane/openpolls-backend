@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateRequestDTO {
+public class UserCreateRequest {
 
 	@NotNull
 	private String firstName;

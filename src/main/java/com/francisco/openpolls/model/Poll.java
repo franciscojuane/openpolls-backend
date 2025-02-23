@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.francisco.openpolls.model.common.Constants;
 import com.francisco.openpolls.model.common.EffectiveModel;
+import com.francisco.openpolls.model.enums.SubmissionLimitCriteria;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -36,5 +37,7 @@ public class Poll extends EffectiveModel{
 	
 	@Default
 	private String pollKey = UUID.randomUUID().toString();
+	
+	private SubmissionLimitCriteria submissionLimitCriteria;
 	
 }

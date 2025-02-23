@@ -80,5 +80,13 @@ public class SubmissionService {
 	public Page<String> generateAnswersByPollIdAndQuestionId(Long pollId, Long questionId, Pageable pageable) {
 		return submissionRepository.getAnswersByPollIdAndQuestionId(pollId, questionId, pageable);
 	}
+	
+	public Long getAmountOfSubmissionsByPollIdAndEmailAddress(Long pollId, String emailAddress) {
+		return submissionRepository.getAmountOfSubmissionsByPollIdAndEmailAddress(pollId, emailAddress);
+	}
+	
+	public Long getAmountOfSubmissionsByPollIdAndIpAddress(Long pollId, String emailAddress) {
+		return submissionRepository.getAmountOfSubmissionsByPollIdAndIpAddress(pollId, emailAddress);
+	}
 
 }

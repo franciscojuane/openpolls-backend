@@ -19,11 +19,15 @@ public interface SubmissionRepository extends JpaRepository<Submission, Long>{
 
 	Page<Submission> findByPollIdOrderById(Long pollId, Pageable pageable);
 	
-	@Query(value = "SELECT sa.answer AS answer, COUNT(sa.id) AS count FROM SubmissionAnswer sa where sa.submission.poll.id = :pollId and sa.question.id = :questionId GROUP BY sa.answer")
+	@Query("SELECT sa.answer AS answer, COUNT(sa.id) AS count FROM SubmissionAnswer sa where sa.submission.poll.id = :pollId and sa.question.id = :questionId GROUP BY sa.answer")
 	Page<AnswerCount> getAnswerCountByPollIdAndQuestionId(@Param("pollId") Long pollId, @Param("questionId") Long questionId, Pageable pageable);
 
-	@Query(value = "SELECT sa.answer AS answer FROM SubmissionAnswer sa where sa.submission.poll.id = :pollId and sa.question.id = :questionId")
+	@Query("SELECT sa.answer AS answer FROM SubmissionAnswer sa where sa.submission.poll.id = :pollId and sa.question.id = :questionId")
 	Page<String> getAnswersByPollIdAndQuestionId(@Param("pollId") Long pollId, @Param("questionId") Long questionId, Pageable pageable);
 	
+	@Query("SELECT count(s.id) FROM Submission s WHERE s.poll.id = :pollId AND s.emailAddress = :emailAddress")
+	long getAmountOfSubmissionsByPollIdAndEmailAddress(@Param("pollId") Long pollId, @Param("emailAddress") String emailAddress);
 	
+	@Query("SELECT count(s.id) FROM Submission s WHERE s.poll.id = :pollId AND s.ipAddress = :ipAddress")
+	long getAmountOfSubmissionsByPollIdAndIpAddress(@Param("pollId") Long pollId, @Param("ipAddress") String ipAddress);
 }

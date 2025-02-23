@@ -62,12 +62,8 @@ public class PollsController {
 	@PostMapping("")
 	@Transactional
 	public ResponseEntity<?> createPoll(@SelectedUser User user, @RequestBody PollCreateRequest pollCreateRequest) {
-		Poll poll = Poll.builder().name(pollCreateRequest.getName()).description(pollCreateRequest.getDescription())
-				.createdByUser(user)
-				.build();
-		poll.setEffectiveDate(pollCreateRequest.effectiveDate);
-		poll.setExpirationDate(pollCreateRequest.expirationDate);
-		
+		Poll poll = pollMapper.pollRequestToPoll(pollCreateRequest);
+		poll.setCreatedByUser(user);
 		poll = pollService.save(poll);
 		return ResponseEntity.ok(pollMapper.pollToPollResponse(poll));
 	}

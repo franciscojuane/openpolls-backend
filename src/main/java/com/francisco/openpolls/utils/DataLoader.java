@@ -6,17 +6,17 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.francisco.openpolls.dto.UserCreateRequestDTO;
+import com.francisco.openpolls.dto.UserCreateRequest;
 import com.francisco.openpolls.model.Poll;
 import com.francisco.openpolls.model.Question;
 import com.francisco.openpolls.model.QuestionOption;
 import com.francisco.openpolls.model.User;
 import com.francisco.openpolls.model.enums.QuestionType;
+import com.francisco.openpolls.model.enums.SubmissionLimitCriteria;
 import com.francisco.openpolls.service.PollService;
 import com.francisco.openpolls.service.QuestionOptionService;
 import com.francisco.openpolls.service.QuestionService;
 import com.francisco.openpolls.service.UserService;
-import com.github.javafaker.Faker;
 
 @Component
 public class DataLoader implements InitializingBean {
@@ -36,11 +36,11 @@ public class DataLoader implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
-		UserCreateRequestDTO userCreateRequestDTO = UserCreateRequestDTO.builder().firstName("Francisco")
+		UserCreateRequest userCreateRequestDTO = UserCreateRequest.builder().firstName("Francisco")
 				.lastName("Juane").email("admin@admin.com").password("admin").build();
 		User user1 = userService.create(userCreateRequestDTO);
 		
-		Poll poll = Poll.builder().name("Poll 1").description("Poll 1 Description").
+		Poll poll = Poll.builder().name("Poll 1").description("Poll 1 Description").submissionLimitCriteria(SubmissionLimitCriteria.NONE).
 				createdByUser(user1).build();
 
 		poll.setEffectiveDate(LocalDateTime.now().minusDays(1));

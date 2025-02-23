@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.francisco.openpolls.dto.UserCreateRequestDTO;
-import com.francisco.openpolls.dto.UserUpdateRequestDTO;
+import com.francisco.openpolls.dto.UserCreateRequest;
+import com.francisco.openpolls.dto.UserUpdateRequest;
 import com.francisco.openpolls.model.User;
 import com.francisco.openpolls.repository.UserRepository;
 
@@ -26,7 +26,7 @@ public class UserService {
 	UserRepository userRepository;
 
 	
-	public User create(@Valid UserCreateRequestDTO userCreateRequestDTO) {
+	public User create(@Valid UserCreateRequest userCreateRequestDTO) {
 
 		String firstName = userCreateRequestDTO.getFirstName();
 		String lastName = userCreateRequestDTO.getLastName();
@@ -49,7 +49,7 @@ public class UserService {
 	}
 
 
-	public User update(UserUpdateRequestDTO userUpdateRequestDTO, Long id) {
+	public User update(UserUpdateRequest userUpdateRequestDTO, Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 		
 		if (userUpdateRequestDTO.isUpdateFirstName()) {

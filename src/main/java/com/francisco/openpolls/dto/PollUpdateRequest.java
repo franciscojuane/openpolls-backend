@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PollUpdateRequestDTO extends EffectiveModel{
+public class PollUpdateRequest extends EffectiveModel{
 
 	@NotNull
 	private String name;

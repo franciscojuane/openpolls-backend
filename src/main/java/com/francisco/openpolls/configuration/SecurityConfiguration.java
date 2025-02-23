@@ -36,6 +36,7 @@ public class SecurityConfiguration {
          .authorizeHttpRequests(auth -> auth
              .requestMatchers("/auth/login").permitAll() 
              .requestMatchers("/h2-console/**").permitAll()
+             .requestMatchers("/public/**").permitAll()
              .anyRequest().authenticated()           
          )
          .sessionManagement(session -> session
