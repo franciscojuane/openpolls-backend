@@ -36,17 +36,6 @@ public class UserResponse {
 
 
 
-public static UserResponse fromUser(User user) {
-	return UserResponse.builder()
-            .id(user.getId())
-            .firstName(user.getFirstName())
-            .lastName(user.getLastName())
-            .email(user.getEmail())
-            .effectiveDate(user.getEffectiveDate())
-            .expirationDate(user.getExpirationDate())
-            .creationTime(user.getCreationTime())
-            .updateTime(user.getUpdateTime())
-            .build();
-}
+
 
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.francisco.openpolls.dto.UserCreateRequest;
 import com.francisco.openpolls.dto.UserResponse;
 import com.francisco.openpolls.dto.UserUpdateRequest;
+import com.francisco.openpolls.dto.mappers.UserMapper;
 import com.francisco.openpolls.model.User;
 import com.francisco.openpolls.repository.UserRepository;
 import com.francisco.openpolls.service.UserService;
@@ -35,12 +36,15 @@ public class UsersController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	UserMapper userMapper;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getUser(@PathVariable Long id) {
 		Optional<User> user = userService.findById(id);
 		if (user.isPresent()) {
-			UserResponse userResponseDTO = UserResponse.fromUser(user.get());
+			UserResponse userResponseDTO = userMapper.userToUserResponse(user.get());
 			return ResponseEntity.ok(userResponseDTO);
 		} else {
 			return ResponseEntity.notFound().build();
@@ -50,7 +54,7 @@ public class UsersController {
 	@GetMapping("/")
 	public ResponseEntity<?> getUsers(Pageable pageable) {
 		Page<User> page = userService.findAll(pageable);
-		List<UserResponse> userResponseDTOs = page.toList().stream().map(user -> UserResponse.fromUser(user))
+		List<UserResponse> userResponseDTOs = page.toList().stream().map(user -> userMapper.userToUserResponse(user))
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(userResponseDTOs);
 	}
@@ -58,13 +62,13 @@ public class UsersController {
 	@PostMapping("/")
 	public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateRequest userCreateRequestDTO) {
 		User user = userService.create(userCreateRequestDTO);
-		return ResponseEntity.ok(UserResponse.fromUser(user));
+		return ResponseEntity.ok(userMapper.userToUserResponse(user));
 	}
 
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequestDTO, @PathVariable Long id) {
 		User user = userService.update(userUpdateRequestDTO, id);
-		return ResponseEntity.ok(UserResponse.fromUser(user));
+		return ResponseEntity.ok(userMapper.userToUserResponse(user));
 	}
 	
 	@DeleteMapping("/{id}")
