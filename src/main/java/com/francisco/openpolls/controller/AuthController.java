@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-class LoginRequestDTO {
+class LoginRequest {
 	private String username;
 	private String password;
 }
@@ -32,7 +32,7 @@ class LoginRequestDTO {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-class LoginResponseDTO {
+class LoginResponse {
 	private String token;
 }
 
@@ -51,19 +51,19 @@ public class AuthController {
 	PasswordEncoder passwordEncoder;
 		
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO){
-		UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequestDTO.getUsername());
+	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
+		UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
 		
 		if (userDetails == null)
 			throw new RuntimeException("User not found");
 		
-		String password = loginRequestDTO.getPassword();
+		String password = loginRequest.getPassword();
 		
 		boolean passwordMatches = passwordEncoder.matches(password, userDetails.getPassword());
 		
 		if (passwordMatches) {
 			String token = jwtService.buildToken(null, userDetails, 3600);
-			return ResponseEntity.ok(LoginResponseDTO.builder().token(token).build());
+			return ResponseEntity.ok(LoginResponse.builder().token(token).build());
 		} else {
 			throw new RuntimeException("Incorrect password");
 		}

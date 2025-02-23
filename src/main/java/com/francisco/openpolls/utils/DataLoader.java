@@ -36,9 +36,9 @@ public class DataLoader implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
-		UserCreateRequest userCreateRequestDTO = UserCreateRequest.builder().firstName("Francisco")
+		UserCreateRequest userCreateRequest = UserCreateRequest.builder().firstName("Francisco")
 				.lastName("Juane").email("admin@admin.com").password("admin").build();
-		User user1 = userService.create(userCreateRequestDTO);
+		User user1 = userService.create(userCreateRequest);
 		
 		Poll poll = Poll.builder().name("Poll 1").description("Poll 1 Description").submissionLimitCriteria(SubmissionLimitCriteria.NONE).
 				createdByUser(user1).build();
@@ -59,23 +59,64 @@ public class DataLoader implements InitializingBean {
 		
 		question1 = questionService.save(question1);
 		
-		QuestionOption questionOption1 = QuestionOption.builder().text("Cats").question(question1)
+		QuestionOption questionOption11 = QuestionOption.builder().text("Cats").question(question1)
 				.build();
-		questionOption1 = questionOptionService.save(questionOption1);
+		questionOption11 = questionOptionService.save(questionOption11);
 		
-		QuestionOption questionOption2 = QuestionOption.builder().text("Dogs").question(question1)
+		QuestionOption questionOption12 = QuestionOption.builder().text("Dogs").question(question1)
 				.build();
-		questionOption2 = questionOptionService.save(questionOption2);
+		questionOption12 = questionOptionService.save(questionOption12);
 		
-		QuestionOption questionOption3 = QuestionOption.builder().text("Iguanas").question(question1)
+		QuestionOption questionOption13 = QuestionOption.builder().text("Iguanas").question(question1)
 				.build();
-		questionOption3 = questionOptionService.save(questionOption3);
+		questionOption13 = questionOptionService.save(questionOption13);
 		
-		QuestionOption questionOption4 = QuestionOption.builder().text("Parrots").question(question1)
+		QuestionOption questionOption14 = QuestionOption.builder().text("Parrots").question(question1)
 				.build();
-		questionOption4 = questionOptionService.save(questionOption4);
+		questionOption14 = questionOptionService.save(questionOption14);
 		
 		Question question2 = Question.builder()
+				.questionType(QuestionType.MULTIPLE_CHOICE)
+				.minAmountOfSelections(1)
+				.maxAmountOfSelections(1)
+				.text("Select your favorites musical genres")
+				.subText("Up to 3 selections")
+				.poll(poll)
+				.rank(1)
+				.build();
+		
+		question2 = questionService.save(question2);
+		
+		QuestionOption questionOption21 = QuestionOption.builder().text("Pop").question(question2)
+				.build();
+		questionOption21 = questionOptionService.save(questionOption21);
+		
+		QuestionOption questionOption22 = QuestionOption.builder().text("Rock").question(question2)
+				.build();
+		questionOption22 = questionOptionService.save(questionOption22);
+		
+		QuestionOption questionOption23 = QuestionOption.builder().text("Jazz").question(question2)
+				.build();
+		questionOption23 = questionOptionService.save(questionOption23);
+		
+		QuestionOption questionOption24 = QuestionOption.builder().text("Classical").question(question2)
+				.build();
+		questionOption24 = questionOptionService.save(questionOption24);
+		
+		QuestionOption questionOption25 = QuestionOption.builder().text("Electro").question(question2)
+				.build();
+		questionOption25 = questionOptionService.save(questionOption25);
+		
+		QuestionOption questionOption26 = QuestionOption.builder().text("Blues").question(question2)
+				.build();
+		questionOption26 = questionOptionService.save(questionOption26);
+		
+		QuestionOption questionOption27 = QuestionOption.builder().text("Samba").question(question2)
+				.build();
+		questionOption27 = questionOptionService.save(questionOption27);
+		
+		
+		Question question3 = Question.builder()
 				.questionType(QuestionType.NUMERIC)
 				.text("Enter your age:")
 				.minValue(18)
@@ -84,10 +125,10 @@ public class DataLoader implements InitializingBean {
 				.poll(poll)
 				.build();
 		
-		question2 = questionService.save(question2);
+		question3 = questionService.save(question3);
 		
 		
-		Question question3 = Question.builder()
+		Question question4 = Question.builder()
 				.questionType(QuestionType.SCALE)
 				.text("Enter the amount of people in your family:")
 				.subText("Including yourself")
@@ -97,10 +138,10 @@ public class DataLoader implements InitializingBean {
 				.poll(poll)
 				.build();
 		
-		question3 = questionService.save(question3);
+		question4 = questionService.save(question4);
 
 		
-		Question question4 = Question.builder()
+		Question question5 = Question.builder()
 				.questionType(QuestionType.TEXT)
 				.text("Enter your commments")
 				.minLength(100)
@@ -108,7 +149,7 @@ public class DataLoader implements InitializingBean {
 				.poll(poll)
 				.build();
 		
-		question4 = questionService.save(question4);
+		question5 = questionService.save(question5);
 		
 	}
 

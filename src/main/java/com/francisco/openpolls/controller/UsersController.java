@@ -44,8 +44,8 @@ public class UsersController {
 	public ResponseEntity<?> getUser(@PathVariable Long id) {
 		Optional<User> user = userService.findById(id);
 		if (user.isPresent()) {
-			UserResponse userResponseDTO = userMapper.userToUserResponse(user.get());
-			return ResponseEntity.ok(userResponseDTO);
+			UserResponse userResponse = userMapper.userToUserResponse(user.get());
+			return ResponseEntity.ok(userResponse);
 		} else {
 			return ResponseEntity.notFound().build();
 		}
@@ -54,20 +54,20 @@ public class UsersController {
 	@GetMapping("/")
 	public ResponseEntity<?> getUsers(Pageable pageable) {
 		Page<User> page = userService.findAll(pageable);
-		List<UserResponse> userResponseDTOs = page.toList().stream().map(user -> userMapper.userToUserResponse(user))
+		List<UserResponse> userResponses = page.toList().stream().map(user -> userMapper.userToUserResponse(user))
 				.collect(Collectors.toList());
-		return ResponseEntity.ok(userResponseDTOs);
+		return ResponseEntity.ok(userResponses);
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateRequest userCreateRequestDTO) {
-		User user = userService.create(userCreateRequestDTO);
+	public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateRequest userCreateRequest) {
+		User user = userService.create(userCreateRequest);
 		return ResponseEntity.ok(userMapper.userToUserResponse(user));
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequestDTO, @PathVariable Long id) {
-		User user = userService.update(userUpdateRequestDTO, id);
+	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest, @PathVariable Long id) {
+		User user = userService.update(userUpdateRequest, id);
 		return ResponseEntity.ok(userMapper.userToUserResponse(user));
 	}
 	

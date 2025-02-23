@@ -26,14 +26,14 @@ public class UserService {
 	UserRepository userRepository;
 
 	
-	public User create(@Valid UserCreateRequest userCreateRequestDTO) {
+	public User create(@Valid UserCreateRequest userCreateRequest) {
 
-		String firstName = userCreateRequestDTO.getFirstName();
-		String lastName = userCreateRequestDTO.getLastName();
-		String password = userCreateRequestDTO.getPassword();
-		String email = userCreateRequestDTO.getEmail();
-		LocalDateTime effectiveDate = userCreateRequestDTO.getEffectiveDate();
-		LocalDateTime expirationDate = userCreateRequestDTO.getExpirationDate();
+		String firstName = userCreateRequest.getFirstName();
+		String lastName = userCreateRequest.getLastName();
+		String password = userCreateRequest.getPassword();
+		String email = userCreateRequest.getEmail();
+		LocalDateTime effectiveDate = userCreateRequest.getEffectiveDate();
+		LocalDateTime expirationDate = userCreateRequest.getExpirationDate();
 
 
 		String encodedPassword = passwordEncoder.encode(password);
@@ -49,31 +49,31 @@ public class UserService {
 	}
 
 
-	public User update(UserUpdateRequest userUpdateRequestDTO, Long id) {
+	public User update(UserUpdateRequest userUpdateRequest, Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 		
-		if (userUpdateRequestDTO.isUpdateFirstName()) {
-            user.setFirstName(userUpdateRequestDTO.getFirstName());
+		if (userUpdateRequest.isUpdateFirstName()) {
+            user.setFirstName(userUpdateRequest.getFirstName());
         }
 
-        if (userUpdateRequestDTO.isUpdateLastName()) {
-            user.setLastName(userUpdateRequestDTO.getLastName());
+        if (userUpdateRequest.isUpdateLastName()) {
+            user.setLastName(userUpdateRequest.getLastName());
         }
 
-        if (userUpdateRequestDTO.isUpdatePassword()) {
-            user.setPassword(userUpdateRequestDTO.getPassword());
+        if (userUpdateRequest.isUpdatePassword()) {
+            user.setPassword(userUpdateRequest.getPassword());
         }
 
-        if (userUpdateRequestDTO.isUpdateEmail()) {
-            user.setEmail(userUpdateRequestDTO.getEmail());
+        if (userUpdateRequest.isUpdateEmail()) {
+            user.setEmail(userUpdateRequest.getEmail());
         }
 
-        if (userUpdateRequestDTO.isUpdateEffectiveDate()) {
-            user.setEffectiveDate(userUpdateRequestDTO.getEffectiveDate());
+        if (userUpdateRequest.isUpdateEffectiveDate()) {
+            user.setEffectiveDate(userUpdateRequest.getEffectiveDate());
         }
 
-        if (userUpdateRequestDTO.isUpdateExpirationDate()) {
-            user.setExpirationDate(userUpdateRequestDTO.getExpirationDate());
+        if (userUpdateRequest.isUpdateExpirationDate()) {
+            user.setExpirationDate(userUpdateRequest.getExpirationDate());
         }
         user = userRepository.save(user);
         return user;
