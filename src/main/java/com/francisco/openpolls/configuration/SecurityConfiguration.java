@@ -23,8 +23,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 
 public class SecurityConfiguration {
-	@Autowired
-    private AuthenticationProvider authenticationProvider;
+	
+    //private AuthenticationProvider authenticationProvider;
 	
 	@Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -42,7 +42,6 @@ public class SecurityConfiguration {
          .sessionManagement(session -> session
              .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 
          )
-         .authenticationProvider(authenticationProvider)
          .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     	 http.csrf(AbstractHttpConfigurer::disable);
     	 http.headers(HeadersConfigurer::disable);
