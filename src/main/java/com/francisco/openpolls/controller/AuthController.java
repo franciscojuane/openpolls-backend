@@ -10,32 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.francisco.openpolls.dto.LoginRequest;
+import com.francisco.openpolls.dto.LoginResponse;
 import com.francisco.openpolls.security.JwtService;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class LoginRequest {
-	private String username;
-	private String password;
-}
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class LoginResponse {
-	private String token;
-}
-
 
 @RequestMapping("/auth")
 @Controller
