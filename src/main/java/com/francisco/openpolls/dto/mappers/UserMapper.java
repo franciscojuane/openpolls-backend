@@ -18,6 +18,8 @@ public class UserMapper {
 	            .expirationDate(user.getExpirationDate())
 	            .creationTime(user.getCreationTime())
 	            .updateTime(user.getUpdateTime())
+	            .roles(user.getRoles())
+	            .authorities(user.getAuthorities())
 	            .build();
 	}
 }

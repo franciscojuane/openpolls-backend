@@ -3,6 +3,7 @@ package com.francisco.openpolls.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.francisco.openpolls.model.Poll;
@@ -20,21 +21,25 @@ public class PollService {
 	@Autowired
 	QuestionService questionService;
 	
+	@PreAuthorize("hasAuthority('POLL_READ')")
 	public Page<Poll> findAll(Pageable pageable){
 		return pollRepository.findAll(pageable);
 	}
 	
+	@PreAuthorize("hasAuthority('POLL_READ')")
 	public Poll findById(Long id) {
         return pollRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Poll not found with id: " + id));
     }
 	
 	@Transactional
+	@PreAuthorize("hasAuthority('POLL_CREATE')")
 	public Poll save(Poll poll) {
         return pollRepository.save(poll);
     }
 	
     @Transactional
+    @PreAuthorize("hasAuthority('POLL_UPDATE')")
     public Poll update(Poll updatedPoll) {
         Poll existingPoll = pollRepository.findById(updatedPoll.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Poll not found for updating with id: " + updatedPoll.getId()));
@@ -49,6 +54,7 @@ public class PollService {
     }
 
     @Transactional
+    @PreAuthorize("hasAuthority('POLL_DELETE')")
     public void deleteById(Long pollId) {
         if (!pollRepository.existsById(pollId)) {
             throw new EntityNotFoundException("Poll not found for id " + pollId);
@@ -57,10 +63,11 @@ public class PollService {
         pollRepository.deleteById(pollId);
     }
     
+	@PreAuthorize("hasAuthority('POLL_READ')")
     public Poll getReferenceById(Long pollId) {
     	return pollRepository.getReferenceById(pollId);
     }
-
+    
 	public Poll findByPollKey(String pollKey) {
 		// TODO Auto-generated method stub
 		return pollRepository.findByPollKey(pollKey);

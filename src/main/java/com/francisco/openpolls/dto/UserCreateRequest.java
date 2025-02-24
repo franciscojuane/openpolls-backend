@@ -1,6 +1,9 @@
 package com.francisco.openpolls.dto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+
+import com.francisco.openpolls.model.Role;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -29,6 +32,8 @@ public class UserCreateRequest {
 	public LocalDateTime effectiveDate;
 
 	public LocalDateTime expirationDate;
+	
+	private Set<Role> roles;
 
 
 }

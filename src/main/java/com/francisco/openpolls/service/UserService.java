@@ -2,6 +2,7 @@ package com.francisco.openpolls.service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.francisco.openpolls.dto.UserCreateRequest;
 import com.francisco.openpolls.dto.UserUpdateRequest;
+import com.francisco.openpolls.model.Role;
 import com.francisco.openpolls.model.User;
 import com.francisco.openpolls.repository.UserRepository;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
 @Service
@@ -25,20 +28,20 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	
 	public User create(@Valid UserCreateRequest userCreateRequest) {
 
 		String firstName = userCreateRequest.getFirstName();
 		String lastName = userCreateRequest.getLastName();
 		String password = userCreateRequest.getPassword();
 		String email = userCreateRequest.getEmail();
+		Set<Role> roles = userCreateRequest.getRoles();
 		LocalDateTime effectiveDate = userCreateRequest.getEffectiveDate();
 		LocalDateTime expirationDate = userCreateRequest.getExpirationDate();
 
 
 		String encodedPassword = passwordEncoder.encode(password);
 
-		User user = User.builder().firstName(firstName).lastName(lastName).password(encodedPassword).email(email)
+		User user = User.builder().firstName(firstName).lastName(lastName).password(encodedPassword).email(email).roles(roles)
 				.build();
 		
 		user.setEffectiveDate(effectiveDate);
@@ -79,11 +82,10 @@ public class UserService {
         return user;
 	}
 	
-	
 	public void deleteUserById(Long id) {
 		userRepository.deleteById(id);
 	}
-	
+
 	public Page<User> findAll(Pageable pageable){
 		Page<User> page = userRepository.findAll(pageable);
 		return page;
@@ -93,7 +95,6 @@ public class UserService {
 		Optional<User> optionalUser = userRepository.findById(id);
 		return optionalUser;
 	}
-
 
 	public Optional<User> findByEmail(String email) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);

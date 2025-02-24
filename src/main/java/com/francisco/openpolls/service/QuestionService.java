@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.francisco.openpolls.model.Poll;
@@ -31,21 +32,25 @@ public class QuestionService {
 		this.submissionAnswerService = submissionAnswerService;
 	}
 
+	@PreAuthorize("hasAuthority('POLL_READ')")
     public Page<Question> findAll(Pageable pageable) {
         return questionRepository.findAll(pageable);
     }
 
+	@PreAuthorize("hasAuthority('POLL_READ')")
     public Question findById(Long id) {
         return questionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + id));
     }
 
     @Transactional
+	@PreAuthorize("hasAuthority('POLL_CREATE')")
     public Question save(Question question) {
         return questionRepository.save(question);
     }
 
     @Transactional
+	@PreAuthorize("hasAuthority('POLL_UPDATE')")
     public Question update(Question updatedQuestion) {
         Question existingQuestion = questionRepository.findById(updatedQuestion.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Question not found for update with id: " + updatedQuestion.getId()));
@@ -72,6 +77,7 @@ public class QuestionService {
     }
 
     @Transactional
+	@PreAuthorize("hasAuthority('POLL_UPDATE')")
     public void deleteById(Long questionId) {
         if (!questionRepository.existsById(questionId)) {
             throw new EntityNotFoundException("Question not found for id " + questionId);
@@ -85,6 +91,7 @@ public class QuestionService {
     	return questionRepository.countByPoll(poll);
     }
 
+	@PreAuthorize("hasAuthority('POLL_READ')")
 	public List<Question> findByPollId(Long pollId) {
 		return questionRepository.findByPollId(pollId);
 	}
@@ -95,12 +102,14 @@ public class QuestionService {
 	}
 	
 	@Transactional
+	@PreAuthorize("hasAuthority('POLL_UPDATE')")
 	public void deleteByPollId(Long pollId) {
 		submissionService.deleteSubmissionsByPollId(pollId);
 		questionRepository.deleteByPollId(pollId);
 		
 	}
 	
+	@PreAuthorize("hasAuthority('POLL_READ')")
 	public Question getReferenceById(Long questionId) {
 		return questionRepository.getReferenceById(questionId);
 	}

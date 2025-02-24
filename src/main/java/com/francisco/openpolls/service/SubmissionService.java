@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.francisco.openpolls.dto.SubmissionAnswerRequest;
@@ -56,18 +57,22 @@ public class SubmissionService {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('POLL_DELETE')")
 	public void deleteSubmissionsByPollId(Long pollId) {
 		submissionRepository.deleteByPollId(pollId);
 	}
 
+	@PreAuthorize("hasAuthority('SUBMISSION_DELETE')")
 	public void deleteSubmissionById(Long id) {
 		submissionRepository.deleteById(id);
 	}
 
+	@PreAuthorize("hasAuthority('SUBMISSION_READ')")
 	public Page<Submission> findSubmissionsByPollId(Long pollId, Pageable pageable) {
 		return submissionRepository.findByPollId(pollId, pageable);
 	}
 
+	@PreAuthorize("hasAuthority('SUBMISSION_READ')")
 	public Page<Submission> findByPollIdOrderById(Long pollId, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return submissionRepository.findByPollIdOrderById(pollId, pageable);

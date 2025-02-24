@@ -1,11 +1,13 @@
 package com.francisco.openpolls.dto;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
 
-import com.francisco.openpolls.model.User;
+import com.francisco.openpolls.model.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +35,10 @@ public class UserResponse {
 	public LocalDateTime creationTime;
 	
 	public LocalDateTime updateTime;
+	
+	public Set<Role> roles;
+	
+	public Collection<? extends GrantedAuthority> authorities;
 
 
 
