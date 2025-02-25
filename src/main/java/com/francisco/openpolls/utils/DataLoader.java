@@ -114,15 +114,29 @@ public class DataLoader implements InitializingBean {
 		Role viewerRole = Role.builder().name("VIEWER").permissions(viewerPermissions).build();
 		viewerRole = roleRepository.save(viewerRole);
 		
+		Set<Permission> editorPermissions = new HashSet<>();
+		adminPermissions.add(pollReadPermission);
+		adminPermissions.add(pollCreatePermission);
+		adminPermissions.add(pollUpdatePermission);
+		adminPermissions.add(pollDeletePermission);
+		
+		Role editorRole = Role.builder().name("EDITOR").permissions(editorPermissions).build();
+		editorRole = roleRepository.save(editorRole);
+		
 		UserCreateRequest userCreateRequest = UserCreateRequest.builder().firstName("Francisco")
 				.lastName("Juane").email("admin@admin.com").password("admin").roles(Set.of(adminRole))
 				.build();
 		User user1 = userService.create(userCreateRequest);
 		
 		UserCreateRequest userCreateRequest2 = UserCreateRequest.builder().firstName("John")
-				.lastName("Doe").email("john@doe.com").password("johndoe").roles(Set.of(viewerRole))
+				.lastName("Doe").email("viewer@viewer.com").password("viewer").roles(Set.of(viewerRole))
 				.build();
 		User user2 = userService.create(userCreateRequest2);
+		
+		UserCreateRequest userCreateRequest3 = UserCreateRequest.builder().firstName("Mary")
+				.lastName("Johnson").email("editor@editor.com").password("editor").roles(Set.of(editorRole))
+				.build();
+		User user3 = userService.create(userCreateRequest3);
 		
 		Poll poll = Poll.builder().name("Poll 1").description("Poll 1 Description").submissionLimitCriteria(SubmissionLimitCriteria.NONE).
 				createdByUser(user1).build();
@@ -217,7 +231,7 @@ public class DataLoader implements InitializingBean {
 				.text("Enter the amount of people in your family:")
 				.subText("Including yourself")
 				.minValue(1)
-				.maxValue(20)
+				.maxValue(10)
 				.scale(1)
 				.poll(poll)
 				.build();
