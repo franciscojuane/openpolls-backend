@@ -7,10 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.francisco.openpolls.dto.SubmissionTableResponse;
 import com.francisco.openpolls.model.Question;
@@ -21,7 +21,7 @@ import com.francisco.openpolls.service.QuestionService;
 import com.francisco.openpolls.service.SubmissionAnswerService;
 import com.francisco.openpolls.service.SubmissionService;
 
-@Controller
+@RestController
 @RequestMapping("/polls/{pollId}/submissions")
 public class SubmissionsController {
 

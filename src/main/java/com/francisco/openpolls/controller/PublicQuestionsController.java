@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.francisco.openpolls.dto.QuestionResponse;
 import com.francisco.openpolls.dto.mappers.QuestionMapper;
 import com.francisco.openpolls.model.Question;
 import com.francisco.openpolls.service.QuestionService;
 
-@Controller
+@RestController
 @RequestMapping("/public/polls/{pollKey}/questions")
 public class PublicQuestionsController {
 	

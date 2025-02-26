@@ -37,6 +37,8 @@ public class SecurityConfiguration {
              .requestMatchers("/auth/login").permitAll() 
              .requestMatchers("/h2-console/**").permitAll()
              .requestMatchers("/public/**").permitAll()
+             .requestMatchers("/swagger-ui/**").permitAll()
+             .requestMatchers("/v3/**").permitAll()
              .anyRequest().authenticated()           
          )
          .sessionManagement(session -> session
