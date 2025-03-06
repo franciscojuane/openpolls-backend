@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateRequest {
+public class UserRequest {
 
 	@NotNull
 	private String firstName;
@@ -33,7 +33,5 @@ public class UserCreateRequest {
 
 	public LocalDateTime expirationDate;
 	
-	private Set<Role> roles;
-
 
 }

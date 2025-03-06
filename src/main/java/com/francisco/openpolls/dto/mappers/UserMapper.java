@@ -2,6 +2,7 @@ package com.francisco.openpolls.dto.mappers;
 
 import org.springframework.stereotype.Component;
 
+import com.francisco.openpolls.dto.UserRequest;
 import com.francisco.openpolls.dto.UserResponse;
 import com.francisco.openpolls.model.User;
 
@@ -21,5 +22,17 @@ public class UserMapper {
 	            .roles(user.getRoles())
 	            .authorities(user.getAuthorities())
 	            .build();
+	}
+	
+	public User userRequestToUser(UserRequest userRequest) {
+	    User user =  User.builder()
+	            .firstName(userRequest.getFirstName())
+	            .lastName(userRequest.getLastName())
+	            .email(userRequest.getEmail())
+	            .build();
+	    
+	    user.setEffectiveDate(userRequest.getEffectiveDate());
+        user.setExpirationDate(userRequest.getExpirationDate());
+        return user;
 	}
 }

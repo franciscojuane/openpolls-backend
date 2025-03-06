@@ -1,8 +1,6 @@
 package com.francisco.openpolls.service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,13 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.francisco.openpolls.dto.UserCreateRequest;
-import com.francisco.openpolls.dto.UserUpdateRequest;
-import com.francisco.openpolls.model.Role;
 import com.francisco.openpolls.model.User;
 import com.francisco.openpolls.repository.UserRepository;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
 @Service
@@ -28,58 +22,29 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	public User create(@Valid UserCreateRequest userCreateRequest) {
-
-		String firstName = userCreateRequest.getFirstName();
-		String lastName = userCreateRequest.getLastName();
-		String password = userCreateRequest.getPassword();
-		String email = userCreateRequest.getEmail();
-		Set<Role> roles = userCreateRequest.getRoles();
-		LocalDateTime effectiveDate = userCreateRequest.getEffectiveDate();
-		LocalDateTime expirationDate = userCreateRequest.getExpirationDate();
-
+	public User create(@Valid User user, String password) {
 
 		String encodedPassword = passwordEncoder.encode(password);
-
-		User user = User.builder().firstName(firstName).lastName(lastName).password(encodedPassword).email(email).roles(roles)
-				.build();
-		
-		user.setEffectiveDate(effectiveDate);
-		user.setExpirationDate(expirationDate);
+		user.setPassword(encodedPassword);
 		user = userRepository.save(user);
 		
 		return user;
 	}
 
 
-	public User update(UserUpdateRequest userUpdateRequest, Long id) {
-		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-		
-		if (userUpdateRequest.isUpdateFirstName()) {
-            user.setFirstName(userUpdateRequest.getFirstName());
-        }
-
-        if (userUpdateRequest.isUpdateLastName()) {
-            user.setLastName(userUpdateRequest.getLastName());
-        }
-
-        if (userUpdateRequest.isUpdatePassword()) {
-            user.setPassword(userUpdateRequest.getPassword());
-        }
-
-        if (userUpdateRequest.isUpdateEmail()) {
-            user.setEmail(userUpdateRequest.getEmail());
-        }
-
-        if (userUpdateRequest.isUpdateEffectiveDate()) {
-            user.setEffectiveDate(userUpdateRequest.getEffectiveDate());
-        }
-
-        if (userUpdateRequest.isUpdateExpirationDate()) {
-            user.setExpirationDate(userUpdateRequest.getExpirationDate());
-        }
-        user = userRepository.save(user);
-        return user;
+	public User update(User user, String password) {
+		User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("User not found"));		
+            existingUser.setFirstName(user.getFirstName());
+            existingUser.setLastName(user.getLastName());
+            if (password != null) {
+            	String encodedPassword = passwordEncoder.encode(password);
+            	existingUser.setPassword(encodedPassword);
+            }
+            existingUser.setEmail(user.getEmail());
+            existingUser.setEffectiveDate(user.getEffectiveDate());
+            existingUser.setExpirationDate(user.getExpirationDate());
+	        existingUser = userRepository.save(existingUser);	        
+	        return existingUser;
 	}
 	
 	public void deleteUserById(Long id) {

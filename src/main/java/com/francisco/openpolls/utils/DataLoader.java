@@ -7,14 +7,12 @@ import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.francisco.openpolls.dto.UserCreateRequest;
 import com.francisco.openpolls.model.Permission;
 import com.francisco.openpolls.model.Poll;
 import com.francisco.openpolls.model.Question;
@@ -123,20 +121,20 @@ public class DataLoader implements InitializingBean {
 		Role editorRole = Role.builder().name("EDITOR").permissions(editorPermissions).build();
 		editorRole = roleRepository.save(editorRole);
 		
-		UserCreateRequest userCreateRequest = UserCreateRequest.builder().firstName("Francisco")
-				.lastName("Juane").email("admin@admin.com").password("admin").roles(Set.of(adminRole))
+		User adminUser = User.builder().firstName("Francisco")
+				.lastName("Juane").email("admin@admin.com").roles(Set.of(adminRole))
 				.build();
-		User user1 = userService.create(userCreateRequest);
+		User user1 = userService.create(adminUser, "admin");
 		
-		UserCreateRequest userCreateRequest2 = UserCreateRequest.builder().firstName("John")
-				.lastName("Doe").email("viewer@viewer.com").password("viewer").roles(Set.of(viewerRole))
+		User viewerUser = User.builder().firstName("John")
+				.lastName("Doe").email("viewer@viewer.com").roles(Set.of(viewerRole))
 				.build();
-		User user2 = userService.create(userCreateRequest2);
+		User user2 = userService.create(viewerUser, "viewer");
 		
-		UserCreateRequest userCreateRequest3 = UserCreateRequest.builder().firstName("Mary")
-				.lastName("Johnson").email("editor@editor.com").password("editor").roles(Set.of(editorRole))
+		User editorUser = User.builder().firstName("Mary")
+				.lastName("Johnson").email("editor@editor.com").roles(Set.of(editorRole))
 				.build();
-		User user3 = userService.create(userCreateRequest3);
+		User user3 = userService.create(editorUser, "editor");
 		
 		Poll poll = Poll.builder().name("Poll 1").description("Poll 1 Description").submissionLimitCriteria(SubmissionLimitCriteria.NONE).
 				createdByUser(user1).build();

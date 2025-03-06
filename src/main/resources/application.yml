@@ -19,3 +19,6 @@ security:
            expiration-time: 600000
 server:
   port: 5000
+springdoc:
+  swagger-ui:
+    defaultModelsExpandDepth: -1	

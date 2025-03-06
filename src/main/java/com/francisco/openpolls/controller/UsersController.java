@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.francisco.openpolls.dto.UserCreateRequest;
+import com.francisco.openpolls.dto.UserRequest;
 import com.francisco.openpolls.dto.UserResponse;
 import com.francisco.openpolls.dto.UserUpdateRequest;
 import com.francisco.openpolls.dto.mappers.UserMapper;
@@ -62,14 +62,14 @@ public class UsersController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateRequest userCreateRequest) {
-		User user = userService.create(userCreateRequest);
+	public ResponseEntity<?> createUser(@Valid @RequestBody UserRequest userRequest) {
+		User user = userService.create(userMapper.userRequestToUser(userRequest), userRequest.getPassword());
 		return ResponseEntity.ok(userMapper.userToUserResponse(user));
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest, @PathVariable Long id) {
-		User user = userService.update(userUpdateRequest, id);
+	public ResponseEntity<?> updateUser(@Valid @RequestBody UserRequest userRequest, @PathVariable Long id) {
+		User user = userService.update(userMapper.userRequestToUser(userRequest), userRequest.getPassword());
 		return ResponseEntity.ok(userMapper.userToUserResponse(user));
 	}
 	
