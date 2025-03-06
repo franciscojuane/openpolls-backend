@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.francisco.openpolls</groupId>
 	<artifactId>com.francisco.openpolls</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.9.0</version>
 	<name>com.francisco.openpolls</name>
 	<description>Open Source Polls Managing System</description>
 	<url/>
