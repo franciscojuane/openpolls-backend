@@ -178,7 +178,7 @@ public class DataLoader implements InitializingBean {
 				.text("Select your favorites musical genres")
 				.subText("Up to 3 selections")
 				.poll(poll)
-				.rank(1)
+				.rank(2)
 				.build();
 		
 		question2 = questionService.save(question2);
@@ -219,6 +219,7 @@ public class DataLoader implements InitializingBean {
 				.maxValue(120)
 				.scale(1)
 				.poll(poll)
+				.rank(3)
 				.build();
 		
 		question3 = questionService.save(question3);
@@ -232,6 +233,7 @@ public class DataLoader implements InitializingBean {
 				.maxValue(10)
 				.scale(1)
 				.poll(poll)
+				.rank(4)
 				.build();
 		
 		question4 = questionService.save(question4);
@@ -243,6 +245,7 @@ public class DataLoader implements InitializingBean {
 				.minLength(100)
 				.maxLength(500)
 				.poll(poll)
+				.rank(5)
 				.build();
 		
 		question5 = questionService.save(question5);

@@ -1,11 +1,14 @@
 package com.francisco.openpolls.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -59,7 +62,11 @@ public class User extends EffectiveModel implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of();
+		List<GrantedAuthority> authoritiesList = new ArrayList<>();
+		for(Role role: this.getRoles()) {
+			role.getPermissions().forEach(p -> authoritiesList.addAll(role.getPermissions().stream().map(x -> new SimpleGrantedAuthority(x.getName())).collect(Collectors.toList())));
+		}
+		return authoritiesList;
 	}
 
 	@Override
