@@ -26,7 +26,6 @@ public class PollService {
 		return pollRepository.findAll(pageable);
 	}
 	
-	@PreAuthorize("hasAuthority('POLL_READ')")
 	public Poll findById(Long id) {
         return pollRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Poll not found with id: " + id));
