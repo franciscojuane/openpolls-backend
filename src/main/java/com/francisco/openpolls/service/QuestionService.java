@@ -109,7 +109,6 @@ public class QuestionService {
 		
 	}
 	
-	@PreAuthorize("hasAuthority('POLL_READ')")
 	public Question getReferenceById(Long questionId) {
 		return questionRepository.getReferenceById(questionId);
 	}

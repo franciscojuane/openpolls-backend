@@ -64,7 +64,7 @@ public class User extends EffectiveModel implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authoritiesList = new ArrayList<>();
 		for(Role role: this.getRoles()) {
-			role.getPermissions().forEach(p -> authoritiesList.addAll(role.getPermissions().stream().map(x -> new SimpleGrantedAuthority(x.getName())).collect(Collectors.toList())));
+			authoritiesList.addAll(role.getPermissions().stream().map(permission -> new SimpleGrantedAuthority(permission.getName())).collect(Collectors.toList()));
 		}
 		return authoritiesList;
 	}

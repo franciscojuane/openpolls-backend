@@ -61,8 +61,7 @@ public class PollService {
         questionService.deleteByPollId(pollId);
         pollRepository.deleteById(pollId);
     }
-    
-	@PreAuthorize("hasAuthority('POLL_READ')")
+
     public Poll getReferenceById(Long pollId) {
     	return pollRepository.getReferenceById(pollId);
     }
