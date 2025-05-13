@@ -21,10 +21,4 @@ server:
   port: 5000
 springdoc:
   swagger-ui:
-    defaultModelsExpandDepth: -1	
-logging:
-  level:
-    org:
-      springframework:
-        security:
-          DEBUG
+    defaultModelsExpandDepth: -1
