@@ -2,6 +2,8 @@
 ## Description
 The OpenPolls Backend is a RESTful API built with Spring Boot, Spring Security, and Spring Data JPA, powering the OpenPolls polling system. It handles all the core logic, data management, and security for the platform.
 
+This project is designed to work with the [OpenPolls Frontend (Vue 3)](https://github.com/franciscojuane/openpolls-frontend-vue3) and [OpenPolls Frontend (Vue 2)](https://github.com/franciscojuane/openpolls-frontend).
+
 ## Key Features
 * Poll Management: Create, update, and delete polls via API endpoints, with support for complex poll configurations.
 
